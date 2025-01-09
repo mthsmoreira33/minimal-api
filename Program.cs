@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using minimal_api.Dominio.DTOs;
+using minimal_api.Infraestrutura.Db;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options => 
