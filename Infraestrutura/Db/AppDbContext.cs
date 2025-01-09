@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using minimal_api.Dominio.Entidades;
 
 namespace minimal_api.Infraestrutura.Db
@@ -16,7 +17,10 @@ namespace minimal_api.Infraestrutura.Db
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("");
+            if (!optionsBuilder.IsConfigured) { 
+                var stringConnection = _configurationAppSettings.GetConnectionString("sqlserver");
+                if (!stringConnection.IsNullOrEmpty()) optionsBuilder.UseSqlServer(stringConnection);
+            }
         }
     }
 }
