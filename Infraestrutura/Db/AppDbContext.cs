@@ -15,6 +15,19 @@ namespace minimal_api.Infraestrutura.Db
 
         public DbSet<Administrador> Administradores { get; set; } = default!;
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Administrador>().HasData(
+                new Administrador
+                {
+                    Id = 1,
+                    Email = "admin",
+                    Senha = "admin",
+                    Perfil = "adm"
+                }
+            );
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured) { 
