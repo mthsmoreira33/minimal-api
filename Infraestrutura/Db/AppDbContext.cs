@@ -17,19 +17,18 @@ namespace minimal_api.Infraestrutura.Db
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-                if(!Administradores.Any())
-                {
-                    modelBuilder.Entity<Administrador>().HasData(
-                        new Administrador
-                        {
-                            Id = 1,
-                            Email = "admin",
-                            Senha = "admin",
-                            Perfil = "adm"
-                        }
-                    );
-                }
-            );
+            if (!Administradores.Any())
+            {
+                modelBuilder.Entity<Administrador>().HasData(
+                    new Administrador
+                    {
+                        Id = 1,
+                        Email = "admin",
+                        Senha = "admin",
+                        Perfil = "adm"
+                    }
+                );
+            }
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
