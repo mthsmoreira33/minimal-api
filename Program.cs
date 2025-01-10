@@ -19,7 +19,11 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", (HttpContext context) =>
+{
+    context.Response.Redirect("/swagger");
+    return Task.CompletedTask;
+});
 
 app.MapPost("/login", ([FromBody] LoginDTO loginDTO, IAdministradorService administradorService) => {
     if (administradorService.Login(loginDTO) != null) Results.Ok("Login Success");
