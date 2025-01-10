@@ -53,6 +53,7 @@ namespace minimal_api.Rotas
                 return Results.Ok();
             }).WithTags("Veiculos");
 
+            // Delete de Veículos
             veiculosRoutes.MapDelete("/{id}", ([FromRoute] int id, IVeiculoService veiculoService) =>
             {
                 var veiculo = veiculoService.BuscaPorId(id);
