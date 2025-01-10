@@ -31,6 +31,7 @@ namespace minimal_api.Rotas
             veiculosRoutes.MapPost("/", ([FromBody] AddVeiculoDTO veiculoDTO, IVeiculoService veiculoService) =>
             {
                 var veiculo = new Veiculo { Nome = veiculoDTO.Nome, Marca = veiculoDTO.Marca};
+                if (string.IsNullOrWhiteSpace(veiculoDTO.Nome) || string.IsNullOrWhiteSpace(veiculoDTO.Marca)) return Results.BadRequest();
 
                 veiculoService.Incluir(veiculo);
                 return Results.Created();
@@ -42,9 +43,11 @@ namespace minimal_api.Rotas
                 var veiculo = veiculoService.BuscaPorId(id);
 
                 if (veiculo == null) return Results.NotFound();
+                if (string.IsNullOrWhiteSpace(veiculoDTO.Nome) || string.IsNullOrWhiteSpace(veiculoDTO.Marca)) return Results.BadRequest();
 
                 veiculo.Nome = veiculoDTO.Nome;
                 veiculo.Marca = veiculoDTO.Marca;
+
 
                 veiculoService.Atualizar(veiculo);
                 return Results.Ok();
