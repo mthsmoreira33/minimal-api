@@ -21,7 +21,9 @@ namespace minimal_api.Rotas
             veiculosRoutes.MapGet("/{id}", ([FromRoute] int id, IVeiculoService veiculoService) =>
             {
                 var veiculo = veiculoService.BuscaPorId(id);
+
                 if (veiculo == null) return Results.NotFound();
+
                 return Results.Ok(veiculo);
             }).WithTags("Veiculos");
 
@@ -29,6 +31,7 @@ namespace minimal_api.Rotas
             veiculosRoutes.MapPost("/", ([FromBody] AddVeiculoDTO veiculoDTO, IVeiculoService veiculoService) =>
             {
                 var veiculo = new Veiculo { Nome = veiculoDTO.Nome, Marca = veiculoDTO.Marca};
+
                 veiculoService.Incluir(veiculo);
                 return Results.Created();
             }).WithTags("Veiculos");
@@ -37,9 +40,12 @@ namespace minimal_api.Rotas
             veiculosRoutes.MapPut("/{id}", ([FromRoute] int id, [FromBody] AddVeiculoDTO veiculoDTO, IVeiculoService veiculoService) =>
             {
                 var veiculo = veiculoService.BuscaPorId(id);
+
                 if (veiculo == null) return Results.NotFound();
+
                 veiculo.Nome = veiculoDTO.Nome;
                 veiculo.Marca = veiculoDTO.Marca;
+
                 veiculoService.Atualizar(veiculo);
                 return Results.Ok();
             }).WithTags("Veiculos");
@@ -47,7 +53,9 @@ namespace minimal_api.Rotas
             veiculosRoutes.MapDelete("/{id}", ([FromRoute] int id, IVeiculoService veiculoService) =>
             {
                 var veiculo = veiculoService.BuscaPorId(id);
+
                 if (veiculo == null) return Results.NotFound();
+
                 veiculoService.Apagar(veiculo);
                 return Results.NoContent();
             }).WithTags("Veiculos");
