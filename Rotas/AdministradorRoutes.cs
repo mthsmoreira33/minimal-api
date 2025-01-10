@@ -14,7 +14,7 @@ namespace minimal_api.Rotas
             {
                 if (administradorService.Login(loginDTO) != null) Results.Ok("Login Success");
                 else Results.Unauthorized();
-            });
+            }).WithTags("Administrador");
         }
     }
 }
