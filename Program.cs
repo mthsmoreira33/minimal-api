@@ -22,7 +22,7 @@ app.UseSwaggerUI();
 app.MapGet("/", (HttpContext context) =>
 {
     context.Response.Redirect("/swagger");
-    return Task.CompletedTask;
+    return Results.Redirect("/swagger");
 });
 
 app.MapPost("/login", ([FromBody] LoginDTO loginDTO, IAdministradorService administradorService) => {
