@@ -23,7 +23,8 @@ namespace minimal_api.Dominio.Servicos
             var administrador = new Administrador
             {
                 Email = administradorDTO.Email,
-                Senha = administradorDTO.Senha
+                Senha = administradorDTO.Senha,
+                Perfil = administradorDTO.Perfil
             };
 
             _db.Administradores.Add(administrador);
