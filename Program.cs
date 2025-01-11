@@ -31,6 +31,12 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddScoped<ITokenService, TokenService>(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var jwt = configuration.GetValue<string>("Jwt");
+    return new TokenService(jwt);
+});
 builder.Services.AddScoped<IAdministradorService, AdministradorService>();
 builder.Services.AddScoped<IVeiculoService, VeiculoService>();
 builder.Services.AddEndpointsApiExplorer();

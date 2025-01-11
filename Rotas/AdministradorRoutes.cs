@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using minimal_api.Dominio.DTOs;
 using minimal_api.Dominio.Interfaces;
 
@@ -12,19 +12,40 @@ namespace minimal_api.Rotas
             var administradorRoutes = app.MapGroup("/administrador");
 
             // Login de Administrador
-            administradorRoutes.MapPost("/login", ([FromBody] LoginDTO loginDTO, IAdministradorService administradorService) =>
+            administradorRoutes.MapPost("/login", ([FromBody] LoginDTO loginDTO, IAdministradorService administradorService, ITokenService tokenService) =>
             {
-                if (administradorService.Login(loginDTO) != null) Results.Ok("Login Success");
-                else Results.Unauthorized();
-            }).WithTags("Administrador");
+                var administrador = administradorService.Login(loginDTO);
+
+                if (administrador != null)
+                {
+                    string token = tokenService.GenerateJwtToken(administrador);
+                    return Results.Ok(new { administrador.Email, administrador.Perfil, Token = token });
+                }
+
+                else
+                {
+                    return Results.Unauthorized();
+                }
+            })
+                .WithTags("Administrador");
 
             //Post de Administrador
             administradorRoutes.MapPost("/", ([FromBody] AdministradorDTO administradorDTO, IAdministradorService administradorService) =>
             {
-                if (string.IsNullOrEmpty(administradorDTO.Email) || string.IsNullOrEmpty(administradorDTO.Senha)) Results.BadRequest("Inclua email ou senha");
-                if (administradorService.VerificarAdministradorExistente(administradorDTO)) Results.BadRequest("Administrador já cadastrado");
+                if (string.IsNullOrEmpty(administradorDTO.Email) || string.IsNullOrEmpty(administradorDTO.Senha))
+                {
+                    return Results.BadRequest("Inclua email ou senha");
+                }
+                if (administradorService.VerificarAdministradorExistente(administradorDTO))
+                {
+                    return Results.BadRequest("Administrador já cadastrado");
+                }
                 administradorService.Incluir(administradorDTO);
-            });
+                return Results.Ok();
+            })
+                .RequireAuthorization()
+                .RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" })
+                .WithTags("Administrador");
 
 
         }
