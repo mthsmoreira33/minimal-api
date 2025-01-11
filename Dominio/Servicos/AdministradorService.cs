@@ -17,5 +17,22 @@ namespace minimal_api.Dominio.Servicos
         {
             return (_db.Administradores.Where(a => a.Email == loginDTO.Email && a.Senha == loginDTO.Password).FirstOrDefault());
         }
+
+        public void Incluir(AdministradorDTO administradorDTO)
+        {
+            var administrador = new Administrador
+            {
+                Email = administradorDTO.Email,
+                Senha = administradorDTO.Senha
+            };
+
+            _db.Administradores.Add(administrador);
+            _db.SaveChanges();
+        }
+
+        public bool VerificarAdministradorExistente(AdministradorDTO administradorDTO)
+        {
+            return (_db.Administradores.Where(a => a.Email == administradorDTO.Email).Any());
+        }
     }
 }
