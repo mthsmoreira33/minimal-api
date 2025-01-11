@@ -34,7 +34,7 @@ namespace minimal_api.Rotas
                 if (string.IsNullOrWhiteSpace(veiculoDTO.Nome) || string.IsNullOrWhiteSpace(veiculoDTO.Marca)) return Results.BadRequest();
 
                 veiculoService.Incluir(veiculo);
-                return Results.Created();
+                return Results.Created($"/veiculos/{veiculo.Id}", veiculo);
             }).WithTags("Veiculos");
 
             // Put de veículos

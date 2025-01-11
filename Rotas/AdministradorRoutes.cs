@@ -41,7 +41,7 @@ namespace minimal_api.Rotas
                     return Results.BadRequest("Administrador já cadastrado");
                 }
                 administradorService.Incluir(administradorDTO);
-                return Results.Ok();
+                return Results.Created();
             })
                 .RequireAuthorization()
                 .RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" })
