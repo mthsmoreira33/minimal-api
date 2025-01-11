@@ -2,6 +2,7 @@
 using minimal_api.Dominio.DTOs;
 using minimal_api.Dominio.Entidades;
 using minimal_api.Dominio.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace minimal_api.Rotas
 {
@@ -15,9 +16,10 @@ namespace minimal_api.Rotas
             veiculosRoutes.MapGet("/", ([FromQuery] int pagina, [FromQuery] string? nome, [FromQuery] string? marca, IVeiculoService veiculoService) =>
             {
                 return Results.Ok(veiculoService.Todos(pagina, nome, marca));
-            }).WithTags("Veiculos");
+            })
+                .WithTags("Veiculos");
 
-            // Get de todos os veículos no Id
+            // Get de um veículo
             veiculosRoutes.MapGet("/{id}", ([FromRoute] int id, IVeiculoService veiculoService) =>
             {
                 var veiculo = veiculoService.BuscaPorId(id);
@@ -25,7 +27,10 @@ namespace minimal_api.Rotas
                 if (veiculo == null) return Results.NotFound();
 
                 return Results.Ok(veiculo);
-            }).WithTags("Veiculos");
+            })
+                .RequireAuthorization()
+                .RequireAuthorization(new AuthorizeAttribute { Roles = "Adm, Editor" })
+                .WithTags("Veiculos");
 
             // Post de veículos
             veiculosRoutes.MapPost("/", ([FromBody] AddVeiculoDTO veiculoDTO, IVeiculoService veiculoService) =>
@@ -35,7 +40,10 @@ namespace minimal_api.Rotas
 
                 veiculoService.Incluir(veiculo);
                 return Results.Created($"/veiculos/{veiculo.Id}", veiculo);
-            }).WithTags("Veiculos");
+            })
+                .RequireAuthorization()
+                .RequireAuthorization(new AuthorizeAttribute { Roles = "Adm, Editor" })
+                .WithTags("Veiculos");
 
             // Put de veículos
             veiculosRoutes.MapPut("/{id}", ([FromRoute] int id, [FromBody] AddVeiculoDTO veiculoDTO, IVeiculoService veiculoService) =>
@@ -51,7 +59,9 @@ namespace minimal_api.Rotas
 
                 veiculoService.Atualizar(veiculo);
                 return Results.Ok();
-            }).WithTags("Veiculos");
+            })
+                .RequireAuthorization()
+                .RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Veiculos");
 
             // Delete de Veículos
             veiculosRoutes.MapDelete("/{id}", ([FromRoute] int id, IVeiculoService veiculoService) =>
@@ -62,7 +72,10 @@ namespace minimal_api.Rotas
 
                 veiculoService.Apagar(veiculo);
                 return Results.NoContent();
-            }).WithTags("Veiculos");
+            })
+                .RequireAuthorization()
+                .RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" })
+                .WithTags("Veiculos");
         }
     }
 }
