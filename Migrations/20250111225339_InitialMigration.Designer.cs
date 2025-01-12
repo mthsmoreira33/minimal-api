@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using minimal_api.Infraestrutura.Db;
+using minimal_api.Infra.Db;
 
 #nullable disable
 
 namespace minimal_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250109225737_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250111225339_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace minimal_api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("minimal_api.Dominio.Entidades.Administrador", b =>
+            modelBuilder.Entity("minimal_api.Domain.Entities.Admin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,31 +37,31 @@ namespace minimal_api.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("Perfil")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("Senha")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Administradores");
+                    b.ToTable("Admins");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             Email = "admin",
-                            Perfil = "adm",
-                            Senha = "admin"
+                            Password = "admin",
+                            Role = "Adm"
                         });
                 });
 
-            modelBuilder.Entity("minimal_api.Dominio.Entidades.Veiculo", b =>
+            modelBuilder.Entity("minimal_api.Domain.Entities.Veicle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,22 +69,22 @@ namespace minimal_api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Ano")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Marca")
+                    b.Property<string>("Brand")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Veiculos");
+                    b.ToTable("Veicles");
                 });
 #pragma warning restore 612, 618
         }

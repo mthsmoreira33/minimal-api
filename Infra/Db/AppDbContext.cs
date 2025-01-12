@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.IdentityModel.Tokens;
-using minimal_api.Dominio.Entidades;
+using minimal_api.Domain.Entities;
 
-namespace minimal_api.Infraestrutura.Db
+namespace minimal_api.Infra.Db
 {
     public class AppDbContext : DbContext
     {
@@ -14,18 +14,18 @@ namespace minimal_api.Infraestrutura.Db
             _configurationAppSettings = configurationAppSettings;
         }
 
-        public DbSet<Administrador> Administradores { get; set; } = default!;
-        public DbSet<Veiculo> Veiculos { get; set; } = default!;
+        public DbSet<Admin> Admins { get; set; } = default!;
+        public DbSet<Veicle> Veicles { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Administrador>().HasData(
-                new Administrador
+            modelBuilder.Entity<Admin>().HasData(
+                new Admin
                 {
                     Id = 1,
                     Email = "admin",
-                    Senha = "admin",
-                    Perfil = "adm"
+                    Password = "admin",
+                    Role = "Adm"
                 }
             );
 

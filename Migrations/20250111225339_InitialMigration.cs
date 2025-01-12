@@ -5,55 +5,55 @@
 namespace minimal_api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Administradores",
+                name: "Admins",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Senha = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Perfil = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Administradores", x => x.Id);
+                    table.PrimaryKey("PK_Admins", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Veiculos",
+                name: "Veicles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Marca = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Ano = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Brand = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Veiculos", x => x.Id);
+                    table.PrimaryKey("PK_Veicles", x => x.Id);
                 });
 
             migrationBuilder.InsertData(
-                table: "Administradores",
-                columns: new[] { "Id", "Email", "Perfil", "Senha" },
-                values: new object[] { 1, "admin", "adm", "admin" });
+                table: "Admins",
+                columns: new[] { "Id", "Email", "Password", "Role" },
+                values: new object[] { 1, "admin", "admin", "Adm" });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Administradores");
+                name: "Admins");
 
             migrationBuilder.DropTable(
-                name: "Veiculos");
+                name: "Veicles");
         }
     }
 }

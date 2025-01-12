@@ -1,20 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace minimal_api.Dominio.Entidades
+namespace minimal_api.Domain.Entities
 {
-    public class Veiculo
+    public class Veicle
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; } = default!;
         [Required]
         [StringLength(255)]
-        public string Nome { get; set; } = default!;
+        public string Name { get; set; } = default!;
         [Required]
         [StringLength(100)]
-        public string Marca { get; set; } = default!;
+        public string Brand { get; set; } = default!;
         [Required]
-        public int Ano  { get; set; } = default!;
+        public int Year { get; set; } = default!;
     }
 }
