@@ -9,9 +9,9 @@ namespace Test.Helpers;
 public class Setup
 {
     public const string PORT = "5001";
-    private static TestContext testContext = default!;
-    private static WebApplicationFactory<Setup> http = default!;
-    private static HttpClient client = default!;
+    public static TestContext testContext = default!;
+    public static WebApplicationFactory<Setup> http = default!;
+    public static HttpClient client = default!;
 
     public static void ClassInit(TestContext testContext)
     {
