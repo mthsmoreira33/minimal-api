@@ -10,27 +10,40 @@ namespace minimal_api.Domain.Services
     {
         private readonly AppDbContext _db = db;
 
+        public Admin? SearchById(int id)
+        {
+            return _db.Admins.Where(v => v.Id == id).FirstOrDefault();
+        }
         public Admin? Login(LoginDTO loginDTO)
         {
             return (_db.Admins.Where(a => a.Email == loginDTO.Email && a.Password == loginDTO.Password).FirstOrDefault());
         }
 
-        public void Store(AdminDTO adminDTO)
+        public Admin Store(Admin admin)
         {
-            var admin = new Admin
-            {
-                Email = adminDTO.Email,
-                Password = adminDTO.Password,
-                Role = adminDTO.Role
-            };
-
             _db.Admins.Add(admin);
             _db.SaveChanges();
+
+            return admin;
         }
 
         public bool HasAny(AdminDTO adminDTO)
         {
             return (_db.Admins.Where(a => a.Email == adminDTO.Email).Any());
+        }
+
+        public List<Admin> GetAll(int? page)
+        {
+            var query = _db.Admins.AsQueryable();
+
+            int pageSize = 10;
+
+            if (page == null)
+            {
+                query = query.Skip((int)page - 1 * pageSize).Take(pageSize);
+            }
+
+            return query.ToList();
         }
     }
 }

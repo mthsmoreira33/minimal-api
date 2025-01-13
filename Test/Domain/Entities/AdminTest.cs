@@ -20,6 +20,5 @@ public class AdminTest
         Assert.AreEqual("admin", adm.Email);
         Assert.AreEqual("admin", adm.Password);
         Assert.AreEqual("Adm", adm.Role);
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using minimal_api.Domain.DTOs;
+using minimal_api.Domain.Entities;
 using minimal_api.Domain.Interfaces;
 using minimal_api.Domain.ModelView;
 
@@ -47,7 +48,16 @@ namespace minimal_api.Rotas
                 {
                     return Results.BadRequest("Admin já cadastrado");
                 }
-                adminService.Store(adminDTO);
+
+                var admin = new Admin
+                {
+                    Email = adminDTO.Email,
+                    Password = adminDTO.Password,
+                    Role = adminDTO.Role
+                };
+
+                adminService.Store(admin);
+
                 return Results.Created();
             })
                 .RequireAuthorization()

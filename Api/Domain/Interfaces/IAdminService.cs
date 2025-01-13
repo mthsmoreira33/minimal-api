@@ -5,9 +5,12 @@ namespace minimal_api.Domain.Interfaces
 {
     public interface IAdminService
     {
+        public Admin? SearchById(int id);
         Admin? Login(LoginDTO loginDTO);
-        void Store(AdminDTO adminDTO);
+        Admin Store(Admin admin);
         bool HasAny(AdminDTO adminDTO);
+
+        public List<Admin> GetAll(int? page);
     }
 
 }
